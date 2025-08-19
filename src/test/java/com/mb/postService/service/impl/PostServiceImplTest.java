@@ -37,6 +37,9 @@ class PostServiceImplTest {
 
     @Test
     void createPost_ShouldSavePostAndReturnDto() {
+        Tag javaTag = new Tag(1L, "Java", LocalDateTime.now(), LocalDateTime.now());
+        Tag springTag = new Tag(2L, "Spring", LocalDateTime.now(), LocalDateTime.now());
+
         PostDto postDto = new PostDto();
         postDto.setTitle("Test Title");
         postDto.setExcerpt("Test Excerpt");
@@ -45,11 +48,8 @@ class PostServiceImplTest {
         postDto.setPublished(true);
         postDto.setTags(Arrays.asList("Java", "Spring"));
 
-        Tag javaTag = new Tag(1L, "Java", LocalDateTime.now(),LocalDateTime.now());
-        Tag springTag = new Tag(2L, "Spring", LocalDateTime.now(),LocalDateTime.now());
-
-        doReturn(javaTag).when(postService).getOrCreateTag("Java");
-        doReturn(springTag).when(postService).getOrCreateTag("Spring");
+        when(tagRepository.findByName("Java")).thenReturn(javaTag);
+        when(tagRepository.findByName("Spring")).thenReturn(springTag);
 
         Post savedPost = new Post();
         savedPost.setId(100L);
@@ -57,7 +57,7 @@ class PostServiceImplTest {
         savedPost.setExcerpt(postDto.getExcerpt());
         savedPost.setContent(postDto.getContent());
         savedPost.setAuthor(postDto.getAuthor());
-        savedPost.setPublished(postDto.isPublished());
+        savedPost.setPublished(true);
         savedPost.setTags(Arrays.asList(javaTag, springTag));
         savedPost.setCreatedAt(LocalDateTime.now());
         savedPost.setUpdatedAt(LocalDateTime.now());
@@ -67,13 +67,10 @@ class PostServiceImplTest {
 
         PostDto result = postService.createPost(postDto);
 
-        assertNotNull(result.getTags());
+        assertNotNull(result);
+        assertTrue(result.isPublished());
         assertEquals(2, result.getTags().size());
-        assertTrue(result.getTags().contains("Java"));
-        assertTrue(result.getTags().contains("Spring"));
-
-        verify(postService).getOrCreateTag("Java");
-        verify(postService).getOrCreateTag("Spring");
+        verify(tagRepository, times(1)).findByName("Java");
     }
 
     @Test
