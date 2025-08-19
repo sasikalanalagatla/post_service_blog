@@ -197,7 +197,7 @@ public class PostServiceImpl implements PostService {
         );
     }
 
-    private Tag getOrCreateTag(String tagName) {
+    Tag getOrCreateTag(String tagName) {
         Tag existingTag = tagRepository.findByName(tagName);
         if (existingTag != null) {
             return existingTag;
