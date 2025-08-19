@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.mb.postService.controller.PostControllerTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.481 s -- in com.mb.postService.controller.PostControllerTest
