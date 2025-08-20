@@ -6,12 +6,11 @@ import com.mb.postService.model.Post;
 import com.mb.postService.model.Tag;
 import com.mb.postService.repository.PostRepository;
 import com.mb.postService.repository.TagRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,6 +18,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class PostServiceImplTest {
 
     @Mock
@@ -26,14 +26,8 @@ class PostServiceImplTest {
     @Mock
     private TagRepository tagRepository;
 
-    @Spy
     @InjectMocks
     private PostServiceImpl postService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void createPost_ShouldSavePostAndReturnDto() {
